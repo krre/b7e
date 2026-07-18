@@ -1,16 +1,22 @@
 const std = @import("std");
 const root = @import("root.zig");
 
-pub fn run(args: []const [:0]const u8) void {
+pub fn run(io: std.Io, args: []const [:0]const u8) !void {
     if (args.len == 1) {
-        showHelp();
+        try showHelp(io);
         return;
     }
 }
 
-fn showHelp() void {
-    std.debug.print("Usage: b7e [options] [file]\n", .{});
-    std.debug.print("\n", .{});
-    std.debug.print("Options:\n", .{});
-    std.debug.print("  -v   Print version information and exit\n", .{});
+fn showHelp(io: std.Io) !void {
+    var stdout_buffer: [1024]u8 = undefined;
+    var stdout_writer = std.Io.File.stdout().writer(io, &stdout_buffer);
+    const stdout = &stdout_writer.interface;
+
+    try stdout.print("Usage: b7e [options] [file]\n", .{});
+    try stdout.print("\n", .{});
+    try stdout.print("Options:\n", .{});
+    try stdout.print("  -v   Print version information and exit\n", .{});
+
+    try stdout.flush();
 }
