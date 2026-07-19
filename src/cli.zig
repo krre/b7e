@@ -10,9 +10,10 @@ pub fn run(stdout: *Stdout, args: []const [:0]const u8) !void {
 }
 
 fn showHelp(stdout: *Stdout) !void {
-    try stdout.bufWriteAll("Usage: b7e [options] [file]\n");
-    try stdout.bufWriteAll("\n");
-    try stdout.bufWriteAll("Options:\n");
-    try stdout.bufWriteAll("  -v   Print version information and exit\n");
-    try stdout.flush();
+    try stdout.writeAll(
+        \\Usage: b7e [options] [file]
+        \\
+        \\Options:
+        \\  -v   Print version information and exit
+    );
 }
