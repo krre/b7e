@@ -20,6 +20,15 @@ pub fn bufPrint(self: *Stdout, comptime fmt: []const u8, args: anytype) !void {
     try self.writer.interface.print(fmt, args);
 }
 
+pub fn writeAll(self: *Stdout, bytes: []const u8) !void {
+    try self.writer.interface.writeAll(bytes);
+    try self.writer.interface.flush();
+}
+
+pub fn bufWriteAll(self: *Stdout, bytes: []const u8) !void {
+    try self.writer.interface.writeAll(bytes);
+}
+
 pub fn flush(self: *Stdout) !void {
     try self.writer.interface.flush();
 }
