@@ -1,5 +1,4 @@
 const std = @import("std");
-const root = @import("root.zig");
 const Stdout = @import("Stdout.zig");
 
 pub fn run(stdout: *Stdout, args: []const [:0]const u8) !void {
