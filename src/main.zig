@@ -8,5 +8,5 @@ pub fn main(init: std.process.Init) !void {
     const io = init.io;
     const stdout = try b7e.Stdout.init(io, arena);
 
-    try b7e.cli.run(io, arena, stdout, args);
+    try b7e.cli.run(io, arena, stdout, args[1..]);
 }

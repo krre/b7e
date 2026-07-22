@@ -2,20 +2,20 @@ const std = @import("std");
 const Stdout = @import("Stdout.zig");
 const build_options = @import("build_options");
 
-pub fn run(io: std.Io, allocator: std.mem.Allocator, stdout: *Stdout, args: []const [:0]const u8) !void {
-    if (args.len == 1) {
+pub fn run(io: std.Io, allocator: std.mem.Allocator, stdout: *Stdout, args: []const []const u8) !void {
+    if (args.len == 0) {
         try showHelp(stdout);
         return;
     }
 
-    const arg_1 = args[1];
+    const arg_0 = args[0];
 
-    if (std.mem.eql(u8, arg_1, "-v")) {
+    if (std.mem.eql(u8, arg_0, "-v")) {
         try showVersion(stdout);
         return;
     }
 
-    try runWasm(io, allocator, arg_1, stdout);
+    try runWasm(io, allocator, arg_0, stdout);
 }
 
 fn showHelp(stdout: *Stdout) !void {
@@ -31,7 +31,7 @@ fn showVersion(stdout: *Stdout) !void {
     try stdout.writeAll(build_options.version);
 }
 
-fn runWasm(io: std.Io, allocator: std.mem.Allocator, file_name: [:0]const u8, stdout: *Stdout) !void {
+fn runWasm(io: std.Io, allocator: std.mem.Allocator, file_name: []const u8, stdout: *Stdout) !void {
     try stdout.print("run file: {s}\n", .{file_name});
 
     const cwd = std.Io.Dir.cwd();
