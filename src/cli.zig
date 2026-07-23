@@ -11,25 +11,25 @@ const usage =
 
 pub fn run(io: std.Io, allocator: std.mem.Allocator, stdout: *Stdout, args: []const []const u8) !void {
     if (args.len == 0) {
-        try showHelp(stdout);
+        try printUsage(stdout);
         return;
     }
 
     const arg_0 = args[0];
 
     if (std.mem.eql(u8, arg_0, "-v") or std.mem.eql(u8, arg_0, "--version")) {
-        try showVersion(stdout);
+        try printVersion(stdout);
         return;
     }
 
     try runWasm(io, allocator, arg_0, stdout);
 }
 
-fn showHelp(stdout: *Stdout) !void {
+fn printUsage(stdout: *Stdout) !void {
     try stdout.writeAll(usage);
 }
 
-fn showVersion(stdout: *Stdout) !void {
+fn printVersion(stdout: *Stdout) !void {
     try stdout.writeAll(build_options.version);
 }
 
