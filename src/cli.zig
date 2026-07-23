@@ -2,6 +2,13 @@ const std = @import("std");
 const Stdout = @import("Stdout.zig");
 const build_options = @import("build_options");
 
+const usage =
+    \\Usage: b7e [options] [file]
+    \\
+    \\Options:
+    \\  -v, --version  Print version information and exit
+;
+
 pub fn run(io: std.Io, allocator: std.mem.Allocator, stdout: *Stdout, args: []const []const u8) !void {
     if (args.len == 0) {
         try showHelp(stdout);
@@ -10,7 +17,7 @@ pub fn run(io: std.Io, allocator: std.mem.Allocator, stdout: *Stdout, args: []co
 
     const arg_0 = args[0];
 
-    if (std.mem.eql(u8, arg_0, "-v")) {
+    if (std.mem.eql(u8, arg_0, "-v") or std.mem.eql(u8, arg_0, "--version")) {
         try showVersion(stdout);
         return;
     }
@@ -19,12 +26,7 @@ pub fn run(io: std.Io, allocator: std.mem.Allocator, stdout: *Stdout, args: []co
 }
 
 fn showHelp(stdout: *Stdout) !void {
-    try stdout.writeAll(
-        \\Usage: b7e [options] [file]
-        \\
-        \\Options:
-        \\  -v   Print version information and exit
-    );
+    try stdout.writeAll(usage);
 }
 
 fn showVersion(stdout: *Stdout) !void {
