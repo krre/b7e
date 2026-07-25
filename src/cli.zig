@@ -28,7 +28,7 @@ pub fn run(io: std.Io, allocator: std.mem.Allocator, stdout: *Stdout, args: []co
             try stdout.writeAll(usage);
             return;
         } else {
-            fatal("Unrecognized option: '{s}'", .{arg});
+            fatal("unrecognized option: '{s}'", .{arg});
         }
     }
 
