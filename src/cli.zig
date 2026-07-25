@@ -9,6 +9,7 @@ const usage =
     \\Options:
     \\  -h, --help     Print help and exit
     \\  -v, --version  Print version information and exit
+    \\
 ;
 
 pub fn run(io: std.Io, allocator: std.mem.Allocator, stdout: *Stdout, args: []const []const u8) !void {
@@ -39,7 +40,7 @@ fn printUsage(stdout: *Stdout) !void {
 }
 
 fn printVersion(stdout: *Stdout) !void {
-    try stdout.writeAll(build_options.version);
+    try stdout.print("{s}\n", .{build_options.version});
 }
 
 fn runWasm(io: std.Io, allocator: std.mem.Allocator, file_name: []const u8, stdout: *Stdout) !void {
