@@ -1,6 +1,7 @@
 const std = @import("std");
 const Stdout = @import("Stdout.zig");
 const build_options = @import("build_options");
+const fatal = std.process.fatal;
 
 const usage =
     \\Usage: b7e [options] [file]
@@ -16,17 +17,21 @@ pub fn run(io: std.Io, allocator: std.mem.Allocator, stdout: *Stdout, args: []co
         return;
     }
 
-    const arg_0 = args[0];
+    const arg = args[0];
 
-    if (std.mem.eql(u8, arg_0, "-v") or std.mem.eql(u8, arg_0, "--version")) {
-        try printVersion(stdout);
-        return;
-    } else if (std.mem.eql(u8, arg_0, "-h") or std.mem.eql(u8, arg_0, "--help")) {
-        try printUsage(stdout);
-        return;
+    if (std.mem.startsWith(u8, arg, "-")) {
+        if (std.mem.eql(u8, arg, "-v") or std.mem.eql(u8, arg, "--version")) {
+            try printVersion(stdout);
+            return;
+        } else if (std.mem.eql(u8, arg, "-h") or std.mem.eql(u8, arg, "--help")) {
+            try printUsage(stdout);
+            return;
+        } else {
+            fatal("Unrecognized option: '{s}'", .{arg});
+        }
     }
 
-    try runWasm(io, allocator, arg_0, stdout);
+    try runWasm(io, allocator, arg, stdout);
 }
 
 fn printUsage(stdout: *Stdout) !void {
