@@ -6,6 +6,7 @@ const usage =
     \\Usage: b7e [options] [file]
     \\
     \\Options:
+    \\  -h, --help     Print help and exit
     \\  -v, --version  Print version information and exit
 ;
 
@@ -19,6 +20,9 @@ pub fn run(io: std.Io, allocator: std.mem.Allocator, stdout: *Stdout, args: []co
 
     if (std.mem.eql(u8, arg_0, "-v") or std.mem.eql(u8, arg_0, "--version")) {
         try printVersion(stdout);
+        return;
+    } else if (std.mem.eql(u8, arg_0, "-h") or std.mem.eql(u8, arg_0, "--help")) {
+        try printUsage(stdout);
         return;
     }
 
