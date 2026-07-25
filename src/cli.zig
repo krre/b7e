@@ -14,7 +14,7 @@ const usage =
 
 pub fn run(io: std.Io, allocator: std.mem.Allocator, stdout: *Stdout, args: []const []const u8) !void {
     if (args.len == 0) {
-        try printUsage(stdout);
+        try stdout.writeAll(usage);
         return;
     }
 
@@ -22,10 +22,10 @@ pub fn run(io: std.Io, allocator: std.mem.Allocator, stdout: *Stdout, args: []co
 
     if (std.mem.startsWith(u8, arg, "-")) {
         if (std.mem.eql(u8, arg, "-v") or std.mem.eql(u8, arg, "--version")) {
-            try printVersion(stdout);
+            try stdout.print("{s}\n", .{build_options.version});
             return;
         } else if (std.mem.eql(u8, arg, "-h") or std.mem.eql(u8, arg, "--help")) {
-            try printUsage(stdout);
+            try stdout.writeAll(usage);
             return;
         } else {
             fatal("Unrecognized option: '{s}'", .{arg});
@@ -33,14 +33,6 @@ pub fn run(io: std.Io, allocator: std.mem.Allocator, stdout: *Stdout, args: []co
     }
 
     try runWasm(io, allocator, arg, stdout);
-}
-
-fn printUsage(stdout: *Stdout) !void {
-    try stdout.writeAll(usage);
-}
-
-fn printVersion(stdout: *Stdout) !void {
-    try stdout.print("{s}\n", .{build_options.version});
 }
 
 fn runWasm(io: std.Io, allocator: std.mem.Allocator, file_name: []const u8, stdout: *Stdout) !void {
