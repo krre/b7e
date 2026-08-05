@@ -5,14 +5,14 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    const options = b.addOptions();
-    options.addOption([]const u8, "version", pkg.version);
-
     const exe_mod = b.createModule(.{
         .root_source_file = b.path("src/main.zig"),
         .target = target,
         .optimize = optimize,
     });
+
+    const options = b.addOptions();
+    options.addOption([]const u8, "version", pkg.version);
 
     exe_mod.addOptions("build_options", options);
 
