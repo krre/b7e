@@ -1,5 +1,5 @@
 # b7e
-WebAssembly runtime. Yet another one, written in Zig.
+WebAssembly runtime.
 
 ## Why b7e?
 `b7e` is a numeronym of "bumblebee" - just like `i18n` (internationalization) or `l10n` (localization). 
